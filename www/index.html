@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Simple Calculator</title>
+  <link rel="stylesheet" href="js/jquery.mobile-1.4.5.css">
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery.mobile-1.4.5.js"></script>
+  <style>
+    #display,
+    #memory {
+      text-align: right;
+      font-style: italic;
+    }
+
+    #memory {
+      font-size: 20px;
+      height: 10px;
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    #keyC,
+    #keyCE {
+      background-color: #f46842;
+      color: white;
+    }
+
+    #equals {
+      background-color: red;
+      color: grey;
+    }
+
+    #plus,
+    #multiply,
+    #divide,
+    #minus {
+      background-color: #f4a166;
+      color: white;
+    }
+
+    .lefty {
+      text-align: left;
+      font-style: Times;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div data-role="page" id="pg1">
+
+    <!-- header for the page -->
+    <div data-role="header">
+      <h2 id="simp">Simple Calculator</h2>
+    </div>
+    <!-- Tabs -->
+    <div data-role="tabs">
+      <!-- This is the navbar -->
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
+          <li><a href="#calcu" data-icon="grid">Calculation</a></li>
+          <li><a href="#info" data-icon="info">Help</a></li>
+        </ul>
+      </div>
+      <div data-role="main" class="ui-content">
+        <!-- home -->
+        <div id="home">
+          <h4>This is a jQuery mobile exercise which provides the user with a calculator for basic mathemathical operations</h2>
+        </div>
+        <!-- Claculation -->
+        <div id="calcu">
+          <form id="calculation">
+            <!-- text input acting as display-->
+            <h2 id="memory"></h2>
+            <h2 id="display">0</h2>
+            <!-- grid for calculator -->
+            <!-- A -->
+            <div class="ui-grid-a">
+              <div class="ui-block-a"><button type="button" id="keyC">C</button></div>
+              <div class="ui-block-b"><button type="button" id="keyCE">CE</button></div>
+            </div>
+            <!-- B -->
+            <div class="ui-grid-c">
+              <div class="ui-block-a"><button type="button" id="key7">7</button></div>
+              <div class="ui-block-b"><button type="button" id="key8">8</button></div>
+              <div class="ui-block-c"><button type="button" id="key9">9</button></div>
+              <div class="ui-block-d"><button type="button" id="divide">÷</button></div>
+            </div>
+            <!-- B -->
+            <div class="ui-grid-c">
+              <div class="ui-block-a"><button type="button" id="key6">6</button></div>
+              <div class="ui-block-b"><button type="button" id="key5">5</button></div>
+              <div class="ui-block-c"><button type="button" id="key4">4</button></div>
+              <div class="ui-block-d"><button type="button" id="multiply">x</button></div>
+            </div>
+            <!-- B -->
+            <div class="ui-grid-c">
+              <div class="ui-block-a"><button type="button" id="key3">3</button></div>
+              <div class="ui-block-b"><button type="button" id="key2">2</button></div>
+              <div class="ui-block-c"><button type="button" id="key1">1</button></div>
+              <div class="ui-block-d"><button type="button" id="minus">-</button></div>
+            </div>
+            <!-- B -->
+            <div class="ui-grid-c">
+              <div class="ui-block-a"><button type="button" id="keydot">.</button></div>
+              <div class="ui-block-b"><button type="button" id="key0">0</button></div>
+              <div class="ui-block-c"><button type="button" id="equals">=</button></div>
+              <div class="ui-block-d"><button type="button" id="plus">+</button></div>
+            </div>
+
+        </div>
+        <!-- INFO -->
+        <div id="info">
+          <h3 class="lefty">This calculator works with two values at a time.</h3>
+          <h4 class="lefty">Step 1: Select your first value</h4>
+          <h4 class="lefty">Step 2: Choose your operation </h4>
+          <h4 class="lefty">Step 3: Select your second value</h4>
+          <h4 class="lefty">Step 4: Either your click on equals or continue adding to your operation </h4>
+          <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-btn-b ui-corner-all ui-shadow ui-icon-info ui-btn-icon-left ">More info</a>
+          <!-- pop up dialog what should be able to be dismissed -->
+          <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:2000px;">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">close</a>
+            <div data-role="header" data-theme="a">
+              <h1>More info</h1>
+            </div>
+            <div role="main" class="ui-content">
+              <h3>You have requested more information about the application.</h3>
+              <a href="#" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back" data-transition="flow">Dismiss</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- footer -->
+    <div data-role="footer">
+      <h5>Homework coded by ©Kissoon Neeschal BCNS17AFT</h5>
+    </div>
+  </div>
+  <!-- Logic for the calculator -->
+  <script>
+    function evaluate(valueone, valuetwo, operation) {
+      var ans;
+      switch (operation) {
+        case "multiply":
+          ans = parseFloat(valueone) * parseFloat(valuetwo);
+          //inputing value into memory
+          $("h2#display").text("0");
+          //Initialising memory to ans
+          $("h2#memory").text(ans);
+          return ans;
+          break;
+        case "minus":
+          ans = parseFloat(valueone) - parseFloat(valuetwo);
+          //inputing value into memory
+          $("h2#display").text("0");
+          //Initialising memory to ans
+          $("h2#memory").text(ans);
+          return ans;
+          break;
+        case "plus":
+          ans = parseFloat(valueone) + parseFloat(valuetwo);
+          //inputing value into memory
+          $("h2#display").text("0");
+          //Initialising memory to ans
+          $("h2#memory").text(ans);
+          return ans;
+          break;
+        case "divide":
+          ans = parseFloat(valueone) / parseFloat(valuetwo);
+          //inputing value into memory
+          $("h2#display").text("0");
+          //Initialising memory to ans
+          $("h2#memory").text(ans);
+          return ans;
+          break;
+        default:
+          $("h2#memory").text("ERROR");
+          break;
+      }
+    }
+    $(document).ready(function() {
+      //Initialising variables
+      var firstval;
+      var secondval;
+      var ans;
+      var operation;
+      //var // zero =true;
+      var pressed = false;
+      var calculation = false;
+      //clearing displays
+      $("#keyC").click(function() {
+        var typed = $("h2#display").text();
+        var i = typed.length;
+        var x = i - 1;
+        var print = typed.substring(0, x);
+        $("h2#display").text(print);
+      });
+      $("#keyCE").click(function() {
+        $("h2#display").text("0");
+        $("h2#memory").text("   ");
+        firstval = null;
+        secondval = null;
+        operation = null;
+        calculation = false;
+        pressed = false;
+        ans = null;
+        // zero =true;
+      });
+      //key input
+      $("#keydot").click(function() {
+        var word = $("h2#display").text();
+        var isit = word.indexOf(".");
+        //prevents input of period several times in the same number
+        if (isit == -1) {
+          var x = $("h2#display").text();
+          var y = x + ".";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key0").click(function() {
+        var x = $("h2#display").text();
+        var y = x + "0";
+        $("h2#display").text(y);
+
+      });
+      $("#key1").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("1");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "1";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key2").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("2");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "2";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key3").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("3");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "3";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key4").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("4");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "4";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key5").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("5");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "5";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key6").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("6");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "6";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key7").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("7");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "7";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key8").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("8");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "8";
+          $("h2#display").text(y);
+        }
+      });
+      $("#key9").click(function() {
+        if ($("h2#display").text() == "0") {
+          $("h2#display").text("9");
+          // zero =false;
+        } else {
+          var x = $("h2#display").text();
+          var y = x + "9";
+          $("h2#display").text(y);
+        }
+      });
+      //operations
+      $("#plus").click(function() {
+        if ((pressed == false) && (calculation == false)) {
+          firstval = $("h2#display").text();
+          var x = firstval + " +";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          operation = "plus";
+        } else if ((pressed == false) && (calculation == true)) {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          var x = firstval + " +";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          //calculation = false;
+          operation = "plus";
+        } else {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          calculation = true;
+          var x = firstval + " +";
+          $("h2#memory").text(x);
+          operation = "plus";
+        }
+      });
+      $("#minus").click(function() {
+        if ((pressed == false) && (calculation == false)) {
+          firstval = $("h2#display").text();
+          var x = firstval + " -";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          operation = "minus";
+        } else if ((pressed == false) && (calculation == true)) {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          var x = firstval + " -";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          //calculation = false;
+          operation = "minus";
+        } else {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          calculation = true;
+          var x = firstval + " -";
+          $("h2#memory").text(x);
+          operation = "minus";
+        }
+      });
+      $("#multiply").click(function() {
+        if ((pressed == false) && (calculation == false)) {
+          firstval = $("h2#display").text();
+          var x = firstval + " x";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          operation = "multiply";
+        } else if ((pressed == false) && (calculation == true)) {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          var x = firstval + " x";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          //calculation = false;
+          operation = "multiply";
+        } else {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          calculation = true;
+          var x = firstval + " x";
+          $("h2#memory").text(x);
+          operation = "multiply";
+        }
+      });
+      $("#divide").click(function() {
+        if ((pressed == false) && (calculation == false)) {
+          firstval = $("h2#display").text();
+          var x = firstval + " ÷";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          operation = "divide";
+        } else if ((pressed == false) && (calculation == true)) {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          var x = firstval + " ÷";
+          $("h2#memory").text(x);
+          $("h2#display").text("0");
+          // zero =true;
+          pressed = true;
+          //calculation = false;
+          operation = "divide";
+        } else {
+          secondval = $("h2#display").text();
+          // zero =true;
+          pressed = false;
+          ans = evaluate(firstval, secondval, operation);
+          firstval = ans;
+          calculation = true;
+          var x = firstval + " ÷";
+          $("h2#memory").text(x);
+          operation = "divide";
+        }
+      });
+      $("#equals").click(function() {
+        secondval = $("h2#display").text();
+        // zero =true;
+        pressed = false;
+        ans = evaluate(firstval, secondval, operation);
+        firstval = ans;
+        calculation = true;
+      });
+    });
+  </script>
+  </script>
+</body>
+
+</html>
